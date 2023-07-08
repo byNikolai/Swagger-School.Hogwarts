@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.List;
 
-    @RestController
+@RestController
     @RequestMapping("faculty")
     @Tag(name = "API for faculties")
     public class FacultyController {
@@ -50,11 +52,18 @@ import java.util.Collection;
             Collection<Faculty> faculties = service.getAll();
             return ResponseEntity.ok(faculties);
         }
-        @GetMapping({"color"})
-        @Operation(summary = "Get all Faculty by color")
-        public ResponseEntity<Collection<Faculty>> getByColor(@RequestParam String color) {
-            Collection<Faculty> faculties = service.getByColor(color);
+        @GetMapping({"filter"})
+        @Operation(summary = "Get all Faculty by color or name")
+        public ResponseEntity<Collection<Faculty>> getByNameOrColor(@RequestParam String name,
+                                                                    @RequestParam String color) {
+            Collection<Faculty> faculties = service.getByNameOrColor(name, color);
             return ResponseEntity.ok(faculties);
         }
+    @GetMapping({"students/{facultyId}"})
+    @Operation(summary = "Get students by faculty")
+    public ResponseEntity<List<Student>> getStudents(@PathVariable Long facultyId) {
+        List<Student> students = service.get(facultyId).getStudents();
+        return ResponseEntity.ok(students);
+    }
 
     }

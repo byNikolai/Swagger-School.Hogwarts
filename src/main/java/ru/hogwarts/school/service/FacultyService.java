@@ -13,6 +13,6 @@ public interface FacultyService {
     Collection<Faculty> getAll();
 
     Faculty get(Long id);
-    Collection<Faculty> getByColor(String color);
+    Collection<Faculty> getByNameOrColor(String name, String color);
 
 }
