@@ -4,47 +4,51 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.EntityNotFoundException;
 import ru.hogwarts.school.exceptions.IncorrectArgumentException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
+import javax.persistence.Id;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final Map<Long, Student> studentMap = new HashMap<>();
-    private static Long idCounter = 1L;
+    private final StudentRepository repository;
+
+    public StudentServiceImpl(StudentRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Student add(Student student) {
-        studentMap.put(idCounter++, student);
+        return repository.save(student);
+    }
+    @Override
+    public Student remove(Long id) {
+        Student student = get(id);
+        repository.deleteById(id);
         return student;
     }
 
     @Override
-    public Student remove(Long id) {
-        if (studentMap.containsKey(id)) {
-            return studentMap.remove(id);
-        }
-        throw new EntityNotFoundException();
-    }
-
-    @Override
     public Student update(Student student) {
-        if (studentMap.containsKey(student.getId())) {
-            return studentMap.put(student.getId(), student);
-        }
-        throw new EntityNotFoundException();    }
-
+        Student presentStudent = get(student.getId());
+        return repository.save(student);
+    }
     @Override
     public Collection<Student> getAll() {
-        return studentMap.values();
+        return repository.findAll();
     }
 
     @Override
     public Student get(Long id) {
-        if (studentMap.containsKey(id)) {
-            return studentMap.get(id);
+        Optional<Student> student = repository.findById(id);
+
+        if (student.isPresent()) {
+            return student.get();
+        } else {
+            throw new EntityNotFoundException();
         }
-        throw new EntityNotFoundException();
     }
 
     @Override
@@ -52,7 +56,7 @@ public class StudentServiceImpl implements StudentService {
         if (age <= 10 || age >= 100) {
             throw new IncorrectArgumentException("Student's age is incorrect");
         }
-        return studentMap.values().stream()
+        return getAll().stream()
                 .filter(e -> Objects.equals(e.getAge(), age))
                 .collect(Collectors.toList());
     }
