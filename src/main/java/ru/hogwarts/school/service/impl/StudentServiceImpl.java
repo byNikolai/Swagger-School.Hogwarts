@@ -7,9 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
-import javax.persistence.Id;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -52,12 +50,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getByAge(Integer age) {
+    public Collection<Student> getByAge(Integer lowestAAge, Integer highestAge) {
+        ageCheck(lowestAAge);
+        ageCheck(highestAge);
+        return repository.findStudentByAgeBetween(lowestAAge, highestAge);
+    }
+
+    private void ageCheck(Integer age) {
         if (age <= 10 || age >= 100) {
             throw new IncorrectArgumentException("Student's age is incorrect");
         }
-        return getAll().stream()
-                .filter(e -> Objects.equals(e.getAge(), age))
-                .collect(Collectors.toList());
     }
 }
