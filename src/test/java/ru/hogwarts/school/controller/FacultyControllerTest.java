@@ -64,7 +64,7 @@ class FacultyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(MOCK_FACULTY_NAME))
-                .andExpect(jsonPath("$.age").value(MOCK_FACULTY_COLOR));
+                .andExpect(jsonPath("$.color").value(MOCK_FACULTY_COLOR));
     }
 
     @Test
@@ -122,7 +122,7 @@ class FacultyControllerTest {
         when(facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(anyString(), anyString())).thenReturn(MOCK_FACULTIES);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/student/filter?name=" + MOCK_FACULTY_NAME + "&color=" + MOCK_FACULTY_COLOR)
+                        .get("/faculty/filter?name=" + MOCK_FACULTY_NAME + "&color=" + MOCK_FACULTY_COLOR)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect((ResultMatcher) content().json(mapper.writeValueAsString(MOCK_FACULTIES)));

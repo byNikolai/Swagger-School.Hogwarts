@@ -34,25 +34,25 @@ public class StudentController {
         Student updatedStudent = service.update(student);
         return ResponseEntity.ok(updatedStudent);
     }
-    @DeleteMapping({"id"})
+    @DeleteMapping("{id}")
     @Operation(summary = "Student remove")
     public ResponseEntity<Student> remove(@PathVariable Long id) {
         Student removedStudent = service.remove(id);
         return ResponseEntity.ok(removedStudent);
     }
-    @GetMapping({"id"})
+    @GetMapping("{id}")
     @Operation(summary = "Get student")
     public ResponseEntity<Student> get(@PathVariable Long id) {
         Student student = service.get(id);
         return ResponseEntity.ok(student);
     }
-    @GetMapping({"all"})
+    @GetMapping("all")
     @Operation(summary = "Get all Students")
     public ResponseEntity<Collection<Student>> getAll() {
         Collection<Student> students = service.getAll();
         return ResponseEntity.ok(students);
     }
-    @GetMapping({"age"})
+    @GetMapping("age")
     @Operation(summary = "Get all Student by age")
     public ResponseEntity<Collection<Student>> getByAge(@RequestParam Integer lowestAge,
                                                         @RequestParam Integer highestAge) {
@@ -60,13 +60,32 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping({"faculty/{studentId}"})
+    @GetMapping("faculty/{studentId}")
     @Operation(summary = "Get students faculty")
     public ResponseEntity<Faculty> getFaculty(@PathVariable Long studentId) {
         Faculty faculty = service.get(studentId).getFaculty();
         return ResponseEntity.ok(faculty);
     }
 
+    @GetMapping("count")
+    @Operation(summary = "Get students quantity")
+    public ResponseEntity<Integer> getStudentsCount() {
+        Integer count = service.getStudentsCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("age/average")
+    @Operation(summary = "Get average quantity of students")
+    public ResponseEntity<Float> getStudentsAverageAge() {
+        Float averageAge = service.getStudentsAverageAge();
+        return ResponseEntity.ok(averageAge);
+    }
+    @GetMapping("last")
+    @Operation(summary = "Get 5 last students")
+    public ResponseEntity<Collection<Student>> getLastFiveStudents() {
+        Collection<Student> students = service.getLastFiveStudents();
+        return ResponseEntity.ok(students);
+    }
 
 }
 

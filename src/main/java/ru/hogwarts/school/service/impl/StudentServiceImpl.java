@@ -50,10 +50,25 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Collection<Student> getByAge(Integer lowestAAge, Integer highestAge) {
-        ageCheck(lowestAAge);
+    public Collection<Student> getByAge(Integer lowestAge, Integer highestAge) {
+        ageCheck(lowestAge);
         ageCheck(highestAge);
-        return repository.findStudentByAgeBetween(lowestAAge, highestAge);
+        return repository.findStudentByAgeBetween(lowestAge, highestAge);
+    }
+
+    @Override
+    public Integer getStudentsCount() {
+        return repository.getCount();
+    }
+
+    @Override
+    public Float getStudentsAverageAge() {
+        return repository.getAverageAge();
+    }
+
+    @Override
+    public List<Student> getLastFiveStudents() {
+        return repository.getLastFive();
     }
 
     private void ageCheck(Integer age) {

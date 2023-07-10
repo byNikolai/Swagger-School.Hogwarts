@@ -54,7 +54,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
     @Override
     public Collection<Faculty> getByNameOrColor(String name, String color) {
-        if (!StringUtils.hasText(color) || !StringUtils.hasText(name)) {
+        if (!StringUtils.hasText(name) || !StringUtils.hasText(color)) {
             throw new IncorrectArgumentException("Color or Name is incorrect");
         }
         return repository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
