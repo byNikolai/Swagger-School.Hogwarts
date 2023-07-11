@@ -4,7 +4,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +30,6 @@ public class TestConstants {
             MOCK_FACULTY
     );
 
-    public static final List<Student> MOCK_STUDENTS = Collections.singletonList((MOCK_STUDENT));
-    public static final List<Faculty> MOCK_FACULTIES = Collections.singletonList((MOCK_FACULTY));
+    public static final List<Student> MOCK_STUDENTS = Collections.singletonList(MOCK_STUDENT);
+    public static final List<Faculty> MOCK_FACULTIES = Collections.singletonList(MOCK_FACULTY);
 }

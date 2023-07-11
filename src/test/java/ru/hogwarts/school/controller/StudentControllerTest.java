@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.impl.StudentServiceImpl;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,8 +40,8 @@ class StudentControllerTest {
     private StudentServiceImpl studentServiceImpl;
     @InjectMocks
     private StudentController studentController;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void createStudent() throws Exception {
@@ -117,17 +119,17 @@ class StudentControllerTest {
                         .get("/student/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
     }
     @Test
     public void getStudentsByAgeBetween() throws Exception {
         when(studentRepository.findStudentByAgeBetween(anyInt(), anyInt())).thenReturn(MOCK_STUDENTS);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/student/age?lowestAge=10$highestAge=30")
+                        .get("/student/age?lowestAge=15&highestAge=25")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
     }
     @Test
     public void getFacultyByStudent() throws Exception{
