@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.impl.StudentServiceImpl;
@@ -118,7 +119,7 @@ class StudentControllerTest {
                         .get("/student/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
     }
     @Test
     public void getStudentsByAgeBetween() throws Exception {
@@ -128,7 +129,7 @@ class StudentControllerTest {
                         .get("/student/age?lowestAge=15&highestAge=25")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
+                .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(MOCK_STUDENTS)));
     }
     @Test
     public void getFacultyByStudent() throws Exception{
