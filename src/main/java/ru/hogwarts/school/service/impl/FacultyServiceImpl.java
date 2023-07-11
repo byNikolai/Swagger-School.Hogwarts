@@ -83,4 +83,14 @@ public class FacultyServiceImpl implements FacultyService {
         }
         return repository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
+
+    @Override
+    public String getTheLongestFacultyName() {
+        logger.info("Was invoked method for get the longest faculty name");
+
+        return repository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse("");
+    }
 }

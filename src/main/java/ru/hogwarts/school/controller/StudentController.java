@@ -86,6 +86,20 @@ public class StudentController {
         Collection<Student> students = service.getLastFiveStudents();
         return ResponseEntity.ok(students);
     }
+    @GetMapping("name-starts-with-a")
+    @Operation(summary = "Get all students with names that starts with letter A")
+    public ResponseEntity<Collection<String>> getAllStudentsWhichNameStartsWithA() {
+        Collection<String> students = service.getAllStudentsWhichNameStartsWithA();
+        return ResponseEntity.ok(students);
+    }
+    @GetMapping("age/average-stream")
+    @Operation(summary = "Get average quantity of students with stream")
+    public ResponseEntity<Double> getStudentsAverageAgeViaStream() {
+        Double averageAge = service.getStudentsAverageAgeViaStream();
+        return ResponseEntity.ok(averageAge);
+    }
+
+
 
 }
 
