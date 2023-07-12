@@ -66,4 +66,12 @@ import java.util.List;
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("longest-name")
+    @Operation(summary = "Get the longest faculty name")
+    public ResponseEntity<String> getTheLongestFacultyName() {
+            String longestFacultyName = service.getTheLongestFacultyName();
+        return ResponseEntity.ok(longestFacultyName);
     }
+
+
+}

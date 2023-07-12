@@ -22,5 +22,7 @@ public interface StudentService {
     Float getStudentsAverageAge();
 
     List<Student> getLastFiveStudents();
+    List<String> getAllStudentsWhichNameStartsWithA();
+    Double getStudentsAverageAgeViaStream();
 
 }

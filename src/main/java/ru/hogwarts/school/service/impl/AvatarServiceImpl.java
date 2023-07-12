@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class AvatarServiceImpl implements AvatarService {
     private final AvatarRepository avatarRepository;
     private final StudentService studentService;
+    private final Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
     @Value("${avatars.dir.path}")
     private String avatarsDir;
     public AvatarServiceImpl(AvatarRepository avatarRepository, StudentService studentService, StudentRepository studentRepository) {
@@ -37,16 +40,24 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method for find avatar");
+
         return avatarRepository.findByStudentId(studentId).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Avatar findOrCreateAvatar(Long studentId) {
+        logger.info("Was invoked method for find or create avatar");
+
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method for upload avatar");
+        logger.warn("Uploading inappropriate avatars will be punished!");
+
+
         Student student = studentService.get(studentId);
         Path filePath = buildPath(student, avatarFile.getOriginalFilename());
         Files.createDirectories(filePath.getParent());
@@ -70,6 +81,9 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public List<Avatar> getPage(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method for get avatars page");
+        logger.debug("getPage, pageNumber=" + pageNumber + "; pageSize=" + pageSize + ";" );
+
         return avatarRepository.findAll(PageRequest.of(pageNumber, pageSize)).getContent();
     }
 
