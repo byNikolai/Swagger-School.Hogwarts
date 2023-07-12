@@ -1,7 +1,6 @@
 package ru.hogwarts.school.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -98,8 +97,17 @@ public class StudentController {
         Double averageAge = service.getStudentsAverageAgeViaStream();
         return ResponseEntity.ok(averageAge);
     }
-
-
-
+    @GetMapping("print-students-name")
+    @Operation(summary = "Get students names in thread")
+    public ResponseEntity<Void> printStudents() {
+        service.printStudents();
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("print-students-name-sync")
+    @Operation(summary = "Get students names in sync thread")
+    public ResponseEntity<Void> printStudentsSync() {
+        service.printStudentsSync();
+        return ResponseEntity.ok().build();
+    }
 }
 

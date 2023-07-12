@@ -25,4 +25,7 @@ public interface StudentService {
     List<String> getAllStudentsWhichNameStartsWithA();
     Double getStudentsAverageAgeViaStream();
 
+    void printStudents();
+    void printStudentsSync();
+
 }
